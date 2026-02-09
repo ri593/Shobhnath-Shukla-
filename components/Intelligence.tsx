@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TrendingUp, Globe, Loader2, Sparkles, AlertTriangle, ArrowUpRight, BarChart2 } from 'lucide-react';
+import { TrendingUp, Globe, Loader2, Sparkles, AlertTriangle, ArrowUpRight, BarChart2, AlertCircle, ShieldCheck } from 'lucide-react';
 import { getTradeIntelligence } from '../services/geminiService';
 import { UserProfile, MarketIntelligence } from '../types';
 
@@ -25,12 +25,38 @@ const Intelligence: React.FC<IntelligenceProps> = ({ profile }) => {
     fetch();
   }, [profile]);
 
+  const getRiskIcon = (level: string) => {
+    switch (level) {
+      case 'High':
+        return <AlertTriangle size={14} className="text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]" />;
+      case 'Moderate':
+        return <AlertCircle size={14} className="text-amber-400" />;
+      case 'Low':
+        return <ShieldCheck size={14} className="text-emerald-400" />;
+      default:
+        return null;
+    }
+  };
+
+  const getRiskStyles = (level: string) => {
+    switch (level) {
+      case 'High':
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
+      case 'Moderate':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+      case 'Low':
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+      default:
+        return 'bg-slate-500/10 text-slate-400 border-slate-500/20';
+    }
+  };
+
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-black text-white">Market Intelligence</h2>
-          <p className="text-slate-400 font-medium">Deep-dive analysis for {profile.regionsOfInterest.join(', ')}</p>
+          <p className="text-slate-400 font-medium">Deep-dive regional risk & opportunity analysis</p>
         </div>
         <div className="p-3 bg-blue-600/10 rounded-2xl border border-blue-500/20 flex items-center space-x-2 text-blue-400">
           <Sparkles size={18} />
@@ -58,12 +84,9 @@ const Intelligence: React.FC<IntelligenceProps> = ({ profile }) => {
                   </div>
                   <h3 className="text-xl font-bold text-white">{intel.region}</h3>
                 </div>
-                <div className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${
-                  intel.riskLevel === 'Low' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                  intel.riskLevel === 'Moderate' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' :
-                  'bg-rose-500/10 text-rose-400 border-rose-500/20'
-                } border`}>
-                  {intel.riskLevel} Risk
+                <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.1em] flex items-center space-x-2 border transition-all ${getRiskStyles(intel.riskLevel)}`}>
+                  {getRiskIcon(intel.riskLevel)}
+                  <span>{intel.riskLevel} Risk</span>
                 </div>
               </div>
 
@@ -73,8 +96,11 @@ const Intelligence: React.FC<IntelligenceProps> = ({ profile }) => {
                   <p className="text-slate-200 text-sm leading-relaxed font-medium">{intel.trend}</p>
                 </div>
                 
-                <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-400 mb-2">Emerging Opportunity</h4>
+                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-400 mb-2 flex items-center">
+                    <Sparkles size={12} className="mr-1.5" />
+                    Emerging Opportunity
+                  </h4>
                   <p className="text-slate-300 text-sm leading-relaxed italic">"{intel.opportunity}"</p>
                 </div>
 

@@ -104,4 +104,9 @@ export interface TradeDocument {
   status: 'Verified' | 'Pending' | 'Rejected';
   date: string;
   blockchainId: string;
+  aiVerification?: {
+    isConsistent: boolean;
+    findings: string[];
+    confidence: number;
+  };
 }

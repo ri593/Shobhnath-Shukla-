@@ -1,8 +1,9 @@
+
 import React, { useState } from 'react';
 import { 
   LayoutDashboard, Wallet, TrendingUp, BookOpen, 
   MessageSquare, User, Menu, Bell, Settings, LogOut,
-  LineChart, Scale
+  LineChart, Scale, ShieldCheck, Globe, Users
 } from 'lucide-react';
 import MarketSummary from './components/MarketSummary';
 import Portfolio from './components/Portfolio';
@@ -14,8 +15,11 @@ import Chatbot from './components/Chatbot';
 import ProfileForm from './components/ProfileForm';
 import LandingPage from './components/LandingPage';
 import Notifications from './components/Notifications';
+import Compliance from './components/Compliance';
+import Intelligence from './components/Intelligence';
+import TradeNetwork from './components/TradeNetwork';
 import { UserProfile } from './types';
-import { MOCK_USER, MOCK_ASSETS } from './constants';
+import { MOCK_USER, MOCK_ASSETS, MOCK_PARTNERS } from './constants';
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,9 +34,12 @@ const App: React.FC = () => {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { id: 'portfolio', label: 'Portfolio', icon: <Wallet size={20} /> },
+    { id: 'intelligence', label: 'Market Intelligence', icon: <Globe size={20} /> },
+    { id: 'network', label: 'Trade Network', icon: <Users size={20} /> },
     { id: 'analysis', label: 'Market Insights', icon: <TrendingUp size={20} /> },
     { id: 'trends', label: 'Sectors', icon: <LineChart size={20} /> },
     { id: 'comparison', label: 'Compare', icon: <Scale size={20} /> },
+    { id: 'compliance', label: 'Compliance', icon: <ShieldCheck size={20} /> },
     { id: 'education', label: 'Academy', icon: <BookOpen size={20} /> },
     { id: 'advisor', label: 'AI Advisor', icon: <MessageSquare size={20} /> },
     { id: 'notifications', label: 'Alerts', icon: <Bell size={20} /> },
@@ -43,9 +50,12 @@ const App: React.FC = () => {
     switch (activeTab) {
       case 'dashboard': return <MarketSummary />;
       case 'portfolio': return <Portfolio assets={MOCK_ASSETS} profile={userProfile} />;
+      case 'intelligence': return <Intelligence profile={userProfile} />;
+      case 'network': return <TradeNetwork partners={MOCK_PARTNERS} />;
       case 'analysis': return <MarketAnalysis assets={MOCK_ASSETS} />;
       case 'trends': return <MarketTrends />;
       case 'comparison': return <StockComparison />;
+      case 'compliance': return <Compliance />;
       case 'education': return <Education />;
       case 'advisor': return <Chatbot profile={userProfile} />;
       case 'notifications': return <Notifications />;

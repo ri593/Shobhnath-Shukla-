@@ -68,7 +68,6 @@ export const getTrendAnalysis = async (sector: string) => {
   return response.text;
 };
 
-// Added missing trade intelligence and networking services
 export const getDailyTradeBriefing = async (profile: UserProfile) => {
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',
@@ -107,4 +106,40 @@ export const getTradeIntelligence = async (regions: string[]) => {
     }
   });
   return JSON.parse(response.text || "[]");
+};
+
+export const getDocumentExplanation = async (type: string, status: string) => {
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    contents: `As an AI trade compliance expert, explain the significance of the document type "${type}" and what a status of "${status}" implies for a professional trader. Keep it professional and concise (under 40 words).`,
+  });
+  return response.text;
+};
+
+export const verifyDocumentAudit = async (fileName: string, type: string) => {
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    contents: `Act as a Trade Compliance AI. Audit this document for common data inconsistencies based on its metadata. File Name: "${fileName}", Document Type: "${type}". 
+    Look for: 
+    1. Labeling mismatches (e.g. file name says invoice but type is Bill of Lading).
+    2. Date format suspiciousness.
+    3. Structural abnormalities common in trade fraud.
+    Return a structured JSON report.`,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: Type.OBJECT,
+        properties: {
+          isConsistent: { type: Type.BOOLEAN },
+          findings: { 
+            type: Type.ARRAY,
+            items: { type: Type.STRING }
+          },
+          confidence: { type: Type.NUMBER }
+        },
+        required: ["isConsistent", "findings", "confidence"]
+      }
+    }
+  });
+  return JSON.parse(response.text || "{}");
 };

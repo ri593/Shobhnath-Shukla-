@@ -1,5 +1,5 @@
 
-import { UserProfile, RiskTolerance, Asset, ComplianceAlert, TradeDocument } from './types';
+import { UserProfile, RiskTolerance, Asset, ComplianceAlert, TradeDocument, TradePartner } from './types';
 
 export const MOCK_USER: UserProfile = {
   name: 'Alex Johnson',
@@ -37,4 +37,13 @@ export const MOCK_DOCUMENTS: TradeDocument[] = [
   { id: 'DOC-001', type: 'Bill of Lading', status: 'Verified', date: '2024-05-15', blockchainId: '0x742d...4f12' },
   { id: 'DOC-002', type: 'Certificate of Origin', status: 'Pending', date: '2024-05-16', blockchainId: '0x911a...3c88' },
   { id: 'DOC-003', type: 'Commercial Invoice', status: 'Verified', date: '2024-05-14', blockchainId: '0x32b5...e1f9' }
+];
+
+export const MOCK_PARTNERS: TradePartner[] = [
+  { id: 'P-101', name: 'Nordic Logistics Co.', country: 'Denmark', role: 'Logistics', reliabilityScore: 98, specialization: 'Cold-chain storage and pharmaceutical transport', isVerified: true },
+  { id: 'P-102', name: 'Zenith Manufacturing', country: 'Vietnam', role: 'Manufacturer', reliabilityScore: 92, specialization: 'Sustainable textiles and organic cotton apparel', isVerified: true },
+  { id: 'P-103', name: 'Pacific Freight', country: 'Singapore', role: 'Freight Forwarder', reliabilityScore: 95, specialization: 'Intra-APAC maritime shipping lanes', isVerified: true },
+  { id: 'P-104', name: 'Global Grain Suppliers', country: 'Canada', role: 'Supplier', reliabilityScore: 89, specialization: 'Bulk commodity grain and cereal exports', isVerified: false },
+  { id: 'P-105', name: 'EuroDistro', country: 'Germany', role: 'Distributor', reliabilityScore: 94, specialization: 'Last-mile logistics in Central Europe', isVerified: true },
+  { id: 'P-106', name: 'TechNode Retail', country: 'USA', role: 'Retailer', reliabilityScore: 87, specialization: 'Consumer electronics and smart home devices', isVerified: true }
 ];
